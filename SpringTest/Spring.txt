@@ -1,0 +1,186 @@
+1. pom.xml의 설정
+
+<properties>
+	<java-version>1.8</java-version> <--1.6에서 1.8로 바꾸기
+	<org.springframework-version>4.1.7.RELEASE</org.springframework-version> <--4.1.7.RELEASE으로 변경
+	<org.aspectj-version>1.6.10</org.aspectj-version>
+	<org.slf4j-version>1.6.6</org.slf4j-version>
+</properties>
+=====================================================================================
+
+=====================================================================================
+2. 톰캣 연결해줄것.
+
+preference -> server에서 설정.
+=====================================================================================
+
+=====================================================================================
+java버전 설정
+
+프로젝트를 선택하고 마우스 우클릭. 나타난 메뉴에서 최하단의 Properties 클릭
+
+Project Facets클릭. java버전 1.8로 변경
+
+*안되면 sql connector연결이 불능
+=====================================================================================
+
+=====================================================================================
+4. 한글 설정
+preference에서 utf-8로 설정해주고
+
+jsp파일에도
+
+<% response.setCharacterEncoding("utf-8"); %>
+
+를 넣어줘야 한다.
+=====================================================================================
+
+=====================================================================================
+5. pom.xml의 설정
+<!-- Test -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.12</version> <-- 4.7을 4.12로 바꿔준다.
+			<scope>test</scope>
+		</dependency>        
+	</dependencies>
+=====================================================================================
+
+=====================================================================================
+6. JDBC연결
+	mysql의 경우
+	pom.xml에
+			<!-- mysql -->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>5.1.36</version>
+		</dependency>
+
+		<!--mybatis -->
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis</artifactId>
+			<version>3.2.8</version>
+		</dependency>
+
+		<!--mybatis-spring -->
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis-spring</artifactId>
+			<version>1.2.2</version>
+		</dependency>
+
+		<!--spring-jdbc -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+			<version>${org.springframework-version}</version>
+		</dependency>
+
+		<!--spring-test -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<version>${org.springframework-version}</version>
+			<scope>test</scope>
+		</dependency>
+
+	추가
+	*MySQLConnectionTest.java 추가
+=====================================================================================
+
+=====================================================================================
+7. root-context.xml 설정
+	namespace탭에
+	aop, bean, context, mysql, mybatis 체크
+	
+	<!-- Root Context: defines shared resources visible to all other web components -->
+		<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource"> //철자 지켜야 함.
+			<property name="driverClassName" value="com.mysql.jdbc.Driver"></property>
+			<property name="url" value="jdbc:mysql://127.0.0.1:3306/mysql"></property> //127.0.0.1 == localhost
+			<property name="username" value="dbrkd"></property>
+			<property name="password" value="12345"></property>
+		</bean>
+	*DataSourceTest.java에서 확인
+	
+	<!-- MyBatis -->
+		<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+			<property name="dataSource" ref="dataSource"></property>
+			<property name="configLocation" value="classpath:/mybatis-config.xml"></property>
+		</bean>
+	*MybatisTest.java에서 확인
+=====================================================================================
+
+=====================================================================================
+8. mabatis 매핑 방법
+http://www.mybatis.org/mybatis-3/ko/getting-started.html
+에서 매핑 긁어와 새로운 xml에 붙여넣기
+
+*이곳에서 sql을 처리한다.
+
+새롭게 추가된 구문은
+root-context.xml
+파일에 있는
+<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+안에 <property> 추가한다.
+
+*<!-- classpath:/mappers/**/*Mapper.xml => mappers라는 폴더 안에  모든 파일들 중 Mapper.xml파일을 선택 -->
+<property name="mapperLocations" value="classpath:/mappers/**/*Mapper.xml"></property>
+=====================================================================================
+
+=====================================================================================
+9. Session넣기
+
+root-context.xml에
+
+	<bean id="sqlSession"
+		class="org.mybatis.spring.SqlSessionTemplate"
+		destroy-method="clearCache">
+		<constructor-arg
+			name="sqlSessionFactory" ref="sqlSessionFactory"><!-- ref는 참조할 id 넣는 곳 -->
+		</constructor-arg>
+	</bean>
+넣기
+=====================================================================================
+
+=====================================================================================
+** log4j 설정방법(로그)
+
+1) root-context.xml에
+
+<bean id="dataSource"
+			 class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+			<!-- value="com.mysql.jdbc.Driver" -->
+			<property name="driverClassName" 
+					  value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"></property> <==수정
+			<property name="url" value="jdbc:log4jdbc:mysql://127.0.0.1:3306/mysql"></property> <==수정
+			<property name="username" value="dbrkd"></property>
+			<property name="password" value="12345"></property>
+		</bean>
+		
+		name="driverClassName" value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"
+		name="url" jdbc:log4jdbc:mysql://127.0.0.1:3306/mysql
+		로 수정
+
+
+2) pom.xml에
+<!-- log4jdbc-log4j2 -->
+		<dependency>
+			<groupId>org.bgee.log4jdbc-log4j2</groupId>
+			<artifactId>log4jdbc-log4j2-jdbc4</artifactId>
+			<version>1.16</version>
+		</dependency>
+		추가
+
+3) log4jdbc.log4j2.properties, logback.xml 파일 추가
+=====================================================================================
+
+=====================================================================================
+**mysql utf8화
+<property name="url" value="jdbc:log4jdbc:mysql://localhost:3306/
+webdb?useUnicode=true&amp;characterEncoding=utf8"></property> <!-- sql log 사용하기 위한 db접속주소 -->
+=====================================================================================
+
+
