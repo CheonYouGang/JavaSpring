@@ -40,7 +40,8 @@ public class BoardController {
 		
 		service.create(boardVo); //등록
 		model.addAttribute("result", "success");
-		return "/board/success";
-		
+		//return "/board/success";
+		return "redirect:/board/listAll"; 
 	}
+	
 }
