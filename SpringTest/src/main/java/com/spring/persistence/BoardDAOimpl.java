@@ -8,9 +8,10 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import com.spring.domain.BoardVO;
+import com.spring.domain.Criteria;
 
 @Repository
-public class BoardDAOimpl implements BoardDAO{
+public class BoardDAOimpl implements BoardDAO{ //boardMapper.xml(DAo구현)
 
 	@Inject
 	private SqlSession session;
@@ -40,5 +41,20 @@ public class BoardDAOimpl implements BoardDAO{
 	@Override
 	public BoardVO read(Integer bno) throws Exception {
 		return session.selectOne(namespace + ".read", bno);
+	}
+	
+	@Override
+	public List<BoardVO> listPage(int page) throws Exception {
+		return session.selectList(namespace + ".listPage", page);
+	}
+	
+	@Override
+	public List<BoardVO> listCriteria(Criteria criteria) throws Exception {
+		return session.selectList(namespace + ".listCriteria", criteria);
+	}
+
+	@Override
+	public int countPaging(Criteria criteria) throws Exception {
+		return session.selectOne(namespace + ".countPaging", criteria);
 	}
 }
