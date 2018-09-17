@@ -4,10 +4,20 @@ public class Criteria {		//페이징 VO
 	private int page;		//현재 조회하는 페이지 번호
 	private int perPageNum; //한 페이지에 몇 개를 보여줄 지 설정
 							//원래는 BigDecimal이라는 걸로 해야 큰 수도 무리없이 받을 수 있다.
+	boolean isSearchParameter;
 	
 	public Criteria() {
 		this.page = 1;
 		this.perPageNum = 10; //한 페이지에 몇 개를 보여줄 지 설정
+		this.isSearchParameter = false;
+	}
+	
+	//생성자 오버로딩(/board/ 부분의 충돌을 막기 위한 오버로딩)
+	public Criteria(boolean isSearchParameter) {
+		this.page = 1;
+		this.perPageNum = 10; //한 페이지에 몇 개를 보여줄 지 설정
+		this.isSearchParameter = isSearchParameter;
+		System.out.println("Criteria(boolean isSearchParameter)");
 	}
 
 	public int getPage() {

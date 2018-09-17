@@ -86,13 +86,27 @@ public class PageMaker {
 	/***************************************************************/
 
 	public String makeParameter(int page) { //page와 perPageNum을 만들어 주는 메소드
-		UriComponents uriComponents = UriComponentsBuilder.newInstance()
+		UriComponents uriComponents;
+		uriComponents = UriComponentsBuilder.newInstance()
 				.queryParam("page", page)
 				.queryParam("perPageNum", criteria.getPerPageNum())
 				.build();
-
+/*		
+		if(this.criteria.isSearchParameter){
+			uriComponents = UriComponentsBuilder.newInstance()
+				.queryParam("page", page)
+				.queryParam("perPageNum", criteria.getPerPageNum())
+				.queryParam("searchType", ((SearchCriteria)criteria).getSearchType())
+				.queryParam("keyword", ((SearchCriteria)criteria).getKeyword())
+				.build();
+		}else {
+			uriComponents = UriComponentsBuilder.newInstance()
+					.queryParam("page", page)
+					.queryParam("perPageNum", criteria.getPerPageNum())
+					.build();
+		}
+		*/
 		logger.info(uriComponents.toString());
-		
 		return uriComponents.toString();
 	}
 

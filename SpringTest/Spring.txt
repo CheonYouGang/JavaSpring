@@ -99,7 +99,8 @@ jsp파일에도
 	<!-- Root Context: defines shared resources visible to all other web components -->
 		<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource"> //철자 지켜야 함.
 			<property name="driverClassName" value="com.mysql.jdbc.Driver"></property>
-			<property name="url" value="jdbc:mysql://127.0.0.1:3306/mysql"></property> //127.0.0.1 == localhost
+			<property name="url" value="jdbc:mysql://127.0.0.1:3306/mysql?useUnicode=true&amp;characterEncoding=utf8"></property> //127.0.0.1 == localhost
+			//return DriverManager.getConnection("jdbc:사용DB종류://127.0.0.1(127.0.0.1은 기본 ipv4):3306/DB명?useUnicode=true&amp;characterEncoding=utf8", "dbrkd", "12345");
 			<property name="username" value="dbrkd"></property>
 			<property name="password" value="12345"></property>
 		</bean>
