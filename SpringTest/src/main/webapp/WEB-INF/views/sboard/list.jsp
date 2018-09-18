@@ -111,8 +111,10 @@
 <script type="text/javascript">
 $(document).ready(function() {
 	$('#searchBtn').on("click", function(event){
-		self.location = "list"
-		+ '${pageMaker.makeParameter(0)}'
+		//self.location = "list"
+		self.location = "list?"
+		//+ '${pageMaker.makeParameter(0)}'
+		+ "page=1&perPageNum=${criteria.perPageNum}"
 		+ '&searchType='
 		+ $('select option:selected').val() // t, c, w, tc, cw, tcw
 		+ '&keyword='

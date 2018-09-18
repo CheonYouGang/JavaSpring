@@ -34,6 +34,7 @@ public class BoardController {
 		model.addAttribute("list", service.listAll());
 	}
 	
+	//등록
 	@RequestMapping(value="/register", method = RequestMethod.GET)
 	public void registerGet(BoardVO boardVO, Model model) throws Exception{
 		logger.info("registerGet~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
