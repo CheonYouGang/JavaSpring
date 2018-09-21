@@ -320,8 +320,10 @@
                 <i class="fa fa-dashboard"></i> <span>ListPage</span> <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
-                <li><a href="/board/listPage"><i class="fa fa-circle-o"></i> Dashboard v1</a></li>
-                <li><a href="/sboard/list"><i class="fa fa-circle-o"></i> Dashboard v2</a></li>
+                <li><a href="/board/listPage"><i class="fa fa-circle-o"></i>BoardList(board)</a></li>
+                <li><a href="/sboard/list"><i class="fa fa-circle-o"></i>BoardList(sboard)</a></li>
+                <li><a href="/sample/hello"><i class="fa fa-circle-o"></i>@RestController(ex)</a></li>
+                <li><a href="/sample/sendVO"><i class="fa fa-circle-o"></i>JSON(ex)</a></li>
               </ul>
             </li>
             <li class="treeview">

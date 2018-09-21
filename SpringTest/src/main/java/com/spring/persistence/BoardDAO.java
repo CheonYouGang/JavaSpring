@@ -6,7 +6,7 @@ import com.spring.domain.BoardVO;
 import com.spring.domain.Criteria;
 import com.spring.domain.SearchCriteria;
 
-public interface BoardDAO { // mapper와 관계있음(추상클래스)
+public interface BoardDAO { //인터페이스만 해줌 [mapper와 관계있음(추상클래스)]
 	// 입력
 	public void create(BoardVO vo) throws Exception;
 
