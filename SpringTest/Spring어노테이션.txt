@@ -1,0 +1,21 @@
+Repressentation State Transfer(REST, = RESF API)
+
+@RestController - 문자열을 전송하는 규격
+
+@pathVariable - URI경로에서 원하는 데이터 추출
+
+@ResponseBody - 전송된 json을 객체로 변환(실제로 자바는 json은 아니기 때문에 써야 한다.)
+
+@ModelAttribute - 전송된 ${  }(EL태그)를 객체로 변환
+
+JSON (JavaScript Object Notation)은 경량의 DATA-교환 형식
+
+@ResponseEntity - 웹브라우저에 상태코드 제어
+
+Advanced REST Client => 크롬 웹 스토어 => ARC cookie exchange(F12키 기능을 좀 더 유용하게ㄴ)
+ 
+=================================================
+       uri        /     전송방식            /      설명
+/ replise/ + JSON        POST             댓글 등록
+/ replise/ + JSON     PUT, PATCH          댓글 수정
+/ replise/ 댓글 번호            DELETE            댓글 삭제
